@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block body %}
+    <div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'input' %}">글 작성하기</a>
+        <a href="{% url 'mypage' %}">마이 페이지</a>
+    {% else %}
+        <a href="/accounts/signup">회원가입</a>
+        <a href="/accounts/login">로그인</a>
+    {% endif %}
+
+    </div>
+    <br>
+
+    <div class="uk-child-width-1-2@m" uk-grid>
+{% for datum in testset_list %}
+    <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-media-top">
+                {% if 'http' in datum.feature %}
+                    <img src="{{ datum.feature }}" width="1800" height="1200" alt="" style="padding:5px;">
+                {% else %}
+                    <img src="{% static 'filters/img/blank.jpg' %}" width="1800" height="1200" alt="" style="padding:5px;">
+                {% endif %}
+
+            </div>
+
+            <div class="uk-card-body">
+                <div class="uk-width-expand">
+                    <h3 class="uk-card-title uk-margin-remove-bottom">{{ datum.title }}</h3>
+                    <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">April 01, 2016</time></p>
+                    <p><span><a href="{% url 'page_detail' datum.pk %}" class="uk-button uk-button-text">Read more</a></span></p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endfor %}
+
+
+</div>
+
+
+
+
+
+{% endblock %}
+
+

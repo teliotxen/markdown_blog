@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'dist/css/uikit.min.css' %}" />
+
+    <!-- UIkit JS -->
+    <script src="{% static 'dist/js/uikit.min.js' %}"></script>
+    <script src="{% static 'dist/js/uikit-icons.min.js' %}"></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+
+    <div class="uk-section ">
+        <div class="uk-container uk-container-small {% comment %}uk-section-primary{% endcomment %}">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+
+
+</body>
+</html>

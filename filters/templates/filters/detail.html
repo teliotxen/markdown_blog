@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+{% load md_filter %}
+{% load static %}
+{% block body %}
+<div>
+{% if user == data.author %}
+     <a href="{% url 'update' %}">글 수정하기</a>
+{% endif %}
+
+    <a href="{% url 'landing_page' %}"> 돌아가기</a>
+</div>
+
+<div>
+    {% if "media" in data.feature %}
+        <img id="featureImage" src="{{ data.feature }}" alt="">
+    {% endif %}
+
+
+</div>
+
+<div>
+
+    <a id="like-button"
+       {% if user.is_authenticated %}
+        onclick="likeCounters()"
+       {% else %}
+        href="/accounts/login"
+       {% endif %}
+    >
+        {% if likes %}
+           LIKE💛
+        {% else %}
+            UNLIKE🤍
+        {% endif %}
+    </a>
+
+</div>
+
+<span id="like_counts">
+
+</span>
+
+<div  id="contents">
+    <h1>{{ data.title }}</h1>
+    <p>{{ data.categories }}</p>
+    <div>
+        {{data.body|mark}}
+    </div>
+
+</div>
+
+<div>
+
+
+    {% for tag in tags %}
+        <span class="uk-label uk-label-success">{{ tag }}</span>
+    {% endfor %}
+
+
+</div>
+
+    <hr>
+{% if user == data.author %}
+    <form>
+        <fieldset class="uk-fieldset">
+            <legend class="uk-legend">Comments</legend>
+
+            <div class="uk-margin">
+                <textarea id="comment_body" class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
+                <p uk-margin>
+                    <input class="uk-button uk-button-primary" type="button" value="쓰기" onclick="postComment()">
+                </p>
+
+            </div>
+        </fieldset>
+    </form>
+{% endif %}
+
+
+<div id="comments_list">
+
+</div>
+<div id="dummy" hidden>
+    <div class="comments_item">
+        <article class="uk-comment uk-comment-primary" style="margin-bottom: 3px">
+            <header class="uk-comment-header">
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-comment-avatar" src="{% static 'filters/img/user.png' %}" width="80" height="80" alt="">
+                    </div>
+                    <div class="uk-width-expand">
+                        <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset comments_item_author" href="#"></a></h4>
+                        <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                            <li><a href="#" class="comments_item_created"></a></li>
+{#                            <li><a href="#">Reply</a></li>#}
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <div class="uk-comment-body">
+                <p class="comments_item_body"></p>
+            </div>
+        </article>
+    </div>
+
+</div>
+
+
+<script src = {% static 'filters/function.js' %}></script>
+<script>
+    commentsInit()
+
+    var likeData = '{{ likes }}'
+    if(likeData ==='False'){
+        document.getElementById("like-button").setAttribute('data', '0')
+    }else{
+        document.getElementById("like-button").setAttribute('data', '1')
+    }
+    console.log(document.getElementById("like-button").getAttribute('data'))
+</script>
+{% endblock %}
+
+
+
